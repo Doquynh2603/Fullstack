@@ -1,7 +1,11 @@
+import Part from "./part"
 const Content = (props) => {
+    console.log(props)
     return (
         <div>
-            <p>{props.name} {props.exercises}</p>
+            <Part name={props.name1} exercises={props.exercises1} />
+            <Part name={props.name2} exercises={props.exercises2} />
+            <Part name={props.name3} exercises={props.exercises3} />
         </div>
     )
 }
