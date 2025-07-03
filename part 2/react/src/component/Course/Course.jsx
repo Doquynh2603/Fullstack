@@ -2,7 +2,13 @@ import Content from "../Content"
 import Header from "../Header"
 import Total from "../Total"
 const Course = (props) => {
-    const total = props.course.parts[0].exercises + props.course.parts[1].exercises + props.course.parts[2].exercises
+    const parts = props.course.parts
+    console.log(parts)
+    const total = parts.reduce(
+        (s, p) => s + p.exercises,
+        0,
+    )
+    console.log(total)
     console.log('course', props)
     return (
         <div>
