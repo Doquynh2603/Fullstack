@@ -2,7 +2,7 @@ const Header = (props) => {
     console.log('dây là props của Header', props)
     return (
         <div>
-            <h1>{props.name}</h1>
+            <h2>{props.name}</h2>
         </div>
     )
 }

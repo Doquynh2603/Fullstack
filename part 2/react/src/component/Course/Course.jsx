@@ -13,7 +13,7 @@ const Course = (props) => {
     return (
         <div>
             <Header name={props.course.name} />
-            <Content parts={props.course.parts} />
+            <Content parts={parts} />
             <Total total={total} />
         </div>
     )
