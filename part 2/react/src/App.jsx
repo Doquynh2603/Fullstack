@@ -8,6 +8,11 @@ const App = () => {
   const addNew = (event) => {
     event.preventDefault()
     const newPersons = { name: newName }
+    if (persons.some(person => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`)
+      setNewName('')
+      return
+    }
     console.log('tên người mới được thêm vào', newName)
     const newList = [...persons, newPersons]
     setPersons(newList)
