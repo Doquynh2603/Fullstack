@@ -27,11 +27,15 @@ const App = () => {
     setNewPhone('')
     console.log('danh sách người trong danh bạ', newList);
   }
-
-
+  const [filter, setFilter] = useState('')
+  const subFilter = persons.filter(person =>
+    person.name.toLowerCase().includes(filter.toLowerCase()))
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        filter shown with <input value={filter} onChange={(e) => setFilter(e.target.value)} />
+      </div>
       <h3>add a new</h3>
       <form onSubmit={addNew}>
         <div>
@@ -47,7 +51,7 @@ const App = () => {
       <h2>Numbers</h2>
       <div>
         {
-          persons.map((person, index) => <p key={index}>{person.name} {person.number}</p>
+          subFilter.map((person, index) => <p key={index}>{person.name} {person.number}</p>
           )
         }
       </div>
