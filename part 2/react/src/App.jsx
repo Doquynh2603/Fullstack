@@ -27,6 +27,18 @@ const App = () => {
     })
 
   }
+  const handleDelete = (id) => {
+    const person = persons.find(p => p.id === id)
+    window.confirm(`Delete ${person.name}?`)
+    PhoneBook.deletePhone(person.id).then(deletePhone => {
+      console.log("dữ liệu cần xóa trên server", deletePhone);
+      setPersons(persons.filter(person => person.id !== id))
+      console.log("Xóa dữ liệu thành công");
+    })
+      .catch(e => {
+        alert("Error ", e.message)
+      })
+  }
   const [filter, setFilter] = useState('')
   const subFilter = persons.filter(person =>
     person.name.toLowerCase().includes(filter.toLowerCase()))
@@ -43,7 +55,7 @@ const App = () => {
         handleSubmit={addNew}
       />
       <h2>Numbers</h2>
-      <Persons persons={subFilter} />
+      <Persons persons={subFilter} handleDelete={handleDelete} />
     </div>
   )
 }

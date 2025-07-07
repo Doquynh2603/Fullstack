@@ -10,4 +10,8 @@ const addPhone = (newPhone) => {
     const request = axios.post(url, newPhone)
     return request.then(response => response.data)
 }
-export default { getAll, addPhone }
+const deletePhone = id => {
+    const request = axios.delete(`${url}/${id}`)
+    return request.then(response => response.data)
+}
+export default { getAll, addPhone, deletePhone }
