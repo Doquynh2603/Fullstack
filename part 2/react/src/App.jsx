@@ -15,21 +15,25 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('')
   const addNew = (event) => {
     event.preventDefault()
-    const index = persons.length
     console.log('danh sách danh bạ trước thêm', persons);
 
-    const newPersons = { name: newName, number: newPhone, id: index + 1 }
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
+    const newPersons = { name: newName, number: newPhone }
+    axios.post('http://localhost:3001/persons', newPersons).then(response => {
+      const data = response.data
+      console.log("dữ liệu server trả về", data);
+      if (persons.some(person => person.name === data)) {
+        alert(`${data} is already added to phonebook`)
+        setNewName('')
+        return
+      }
+      const newList = [...persons, data]
+      console.log("danh bạ sau khi thêm mới", newList);
+
+      setPersons(newList)
       setNewName('')
-      return
-    }
-    console.log('tên người mới được thêm vào', newName)
-    const newList = [...persons, newPersons]
-    setPersons(newList)
-    setNewName('')
-    setNewPhone('')
-    console.log('danh sách người trong danh bạ', newList);
+      setNewPhone('')
+    })
+
   }
   const [filter, setFilter] = useState('')
   const subFilter = persons.filter(person =>
