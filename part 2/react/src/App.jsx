@@ -3,11 +3,13 @@ import Filter from './component/Filter/index'
 import PersonForm from './component/PersonForm/index'
 import Persons from './component/Persons/index'
 import PhoneNumber from './services/be'
+import Notification from './component/Notification'
 const App = () => {
   const [persons, setPersons] = useState([])
   const [filter, setFilter] = useState('')
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
+  const [notice, setNotice] = useState(null)
   useEffect(() => {
     PhoneNumber.getAll().then(res => {
       console.log("dữ liệu lấy từ server", res);
@@ -46,12 +48,24 @@ const App = () => {
         console.log("Phone mới được thêm", res);
         console.log("Danh sách danh bạ sau khi thêm", newList);
         setPersons(newList)
+        setNotice(
+          `Added ${newName}`
+        )
+        setTimeout(() => {
+          setNotice(null)
+        }, 5000)
       } else {
         if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
           const newList = persons.map(p => p.id === res.id ? res : p)
           console.log("Phone mới được sửa", res)
           console.log("Danh sách danh bạ sau khi sửa số điện thoại có tên trùng", newList)
           setPersons(newList)
+          setNotice(
+            `Updated numberphone of ${newName}`
+          )
+          setTimeout(() => {
+            setNotice(null)
+          }, 5000)
         }
       }
       setNewName('')
@@ -62,6 +76,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notice} />
       <Filter filter={filter} handleFilter={(e) => setFilter(e.target.value)} />
       <h3>add a new</h3>
       <PersonForm
