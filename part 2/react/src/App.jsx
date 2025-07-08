@@ -10,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [notice, setNotice] = useState(null)
+  const [error, setError] = useState(null)
   useEffect(() => {
     PhoneNumber.getAll().then(res => {
       console.log("dữ liệu lấy từ server", res);
@@ -68,15 +69,22 @@ const App = () => {
           }, 5000)
         }
       }
-      setNewName('')
-      setNewPhone('')
     })
-
+      .catch(() => {
+        setError(
+          `Information of ${newPhone} has already been removed from server`
+        )
+        setTimeout(() => {
+          setError(null)
+        }, 5000)
+      })
+    setNewName('')
+    setNewPhone('')
   }
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notice} />
+      <Notification message={notice} error={error} />
       <Filter filter={filter} handleFilter={(e) => setFilter(e.target.value)} />
       <h3>add a new</h3>
       <PersonForm
