@@ -1,4 +1,6 @@
+import WeatherInfo from "./weatherInfo"
 const Country = ({ country }) => {
+
     return (
         <div>
             <h1>{country.name.common}</h1>
@@ -11,6 +13,7 @@ const Country = ({ country }) => {
                 )}
             </ul>
             <img src={country.flags.png} alt={country.flags.alt} />
+            {country.capital.map(c => <WeatherInfo key={c} city={c} />)}
         </div>
     )
 }
