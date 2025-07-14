@@ -1,32 +1,27 @@
-import { useEffect, useState } from "react"
 import axios from "axios"
-const WeatherInfo = ({ city }) => {
-    const api_key = import.meta.env.VITE_SOME_KEY
+import { useEffect, useState } from "react"
+
+const WeatherInfor = ({ city }) => {
     const [weather, setWeather] = useState(null)
+    const api_key = import.meta.env.VITE_SOME_KEY
     useEffect(() => {
-        if (!city) return
         axios.get('https://api.openweathermap.org/data/2.5/weather', {
             params: {
                 q: city,
-                units: 'metric',
                 appid: api_key
             }
-        }).then(res => {
-            console.log(res.data);
-            return setWeather(res.data)
         })
-            .catch(e => console.error("Error: ", e.message))
-
+            .then((res) => setWeather(res.data))
     }, [city, api_key])
-    if (!weather) return <p>Loading weather data...</p>
+
+    if (!weather) return <p>Loading weather ....</p>
     return (
         <div>
-            <h4>Weather in {city}</h4>
+            <h2>Weathers in {city}</h2>
             <p>Temperature {weather.main.temp} Celsius</p>
-            <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt={weather.weather[0].description}></img>
+            <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt={weather.weather[0].description} />
             <p>Wind {weather.wind.speed} m/s</p>
         </div>
     )
 }
-
-export default WeatherInfo
+export default WeatherInfor

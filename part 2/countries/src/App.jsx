@@ -3,50 +3,50 @@ import './App.css'
 import axios from 'axios'
 import Country from './component/Country'
 function App() {
+  const [countries, setCounties] = useState([])
   const [filter, setFilter] = useState('')
-  const [countries, setCountries] = useState([])
-  const [showCountries, setShowCountries] = useState([]) // lưu tên của các quốc gia được hiển thị chi tiết
+  const [showCountries, setShowCountries] = useState([])
   useEffect(() => {
     axios.get('https://studies.cs.helsinki.fi/restcountries/api/all')
-      .then(res => {
-        setCountries(res.data)
-      })
+      .then(res => setCounties(res.data))
   }, [])
+
   const subFilter = filter.trim() ? countries.filter(c => c.name.common.toLowerCase().includes(filter.toLowerCase())) : []
 
   const handleShow = (name) => {
     if (showCountries.includes(name)) {
-      setShowCountries(showCountries.filter(c => c !== name)) // ẩn thông tin của các quốc gia
+      setShowCountries(showCountries.filter(c => c !== name))
     }
     else {
       setShowCountries([...showCountries, name])
     }
   }
   let content
+
   if (filter.trim() && subFilter.length > 10) {
     content = <p>Too many matches, specify another filter</p>
-  } else if (filter.trim() && subFilter.length === 1) {
-    console.log(Object.values(subFilter[0].languages))
+  } else if (subFilter.length === 1) {
     content = <Country country={subFilter[0]} />
   } else {
-    content = subFilter.map((c, index) =>
+    content = subFilter.map((country, index) =>
       <div key={index}>
         <p>
-          {c.name.common}{'  '}
-          <button onClick={() => { handleShow(c.name.common) }}>{showCountries.includes(c.name.common) ? 'Hide' : 'Show'}</button>
+          {country.name.common} {'  '}
+          <button onClick={() => { handleShow(country.name.common) }}>{showCountries.includes(country.name.common) ? 'Hide' : 'Show'}</button>
         </p>
-        {showCountries.includes(c.name.common) && <Country country={c} />}
+        {showCountries.includes(country.name.common) && <Country country={country} />}
       </div>
+
+
     )
   }
+
   return (
     <div>
-      <div>
-        find countries <input value={filter} onChange={(e) => {
-          setFilter(e.target.value)
-          setShowCountries([])
-        }} />
-      </div>
+      find countries <input value={filter} onChange={(e) => {
+        setFilter(e.target.value)
+        setShowCountries([])
+      }} />
       <div>
         {
           content
