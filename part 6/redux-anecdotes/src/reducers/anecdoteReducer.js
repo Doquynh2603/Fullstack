@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const anecdotesAtStart = [
   "If it hurts, do it more often",
@@ -33,7 +33,10 @@ const anecdoteReducer = createSlice({
       }
     },
     createAnecdote(state, action) {
-      return state.push(asObject(action.payload));
+      console.log("anecdote trước khi tạo: ", current(state));
+
+      state.push(asObject(action.payload));
+      console.log("anecdote sau khi tạo: ", current(state));
     },
   },
 });
