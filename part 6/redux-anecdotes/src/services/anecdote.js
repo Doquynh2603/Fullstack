@@ -6,7 +6,11 @@ const getAll = async () => {
 };
 
 const createNewAnecdote = async (content) => {
-  const res = await axios.post(url, { content });
+  const object = {
+    content: content,
+    votes: 0,
+  };
+  const res = await axios.post(url, object);
   return res.data;
 };
 export default { getAll, createNewAnecdote };
